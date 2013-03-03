@@ -37,6 +37,7 @@ class Delete implements SQLFunction {
         System.out.println("Delte End");
 
         db.commit();
+        System.out.println("Album delted successfully");
     }
 
 
