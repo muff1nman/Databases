@@ -6,7 +6,6 @@ public class Main {
 
     private Map<Action,SQLFunction> translate;
     private Scanner in;
-    private Driver d;
     private Connection conn;
 
     public Main() {
@@ -42,11 +41,21 @@ public class Main {
         }
     }
 
-    private void initConn() {
+    private void initConn() throws SQLException {
+        try { 
+            Class.forName("org.sqlite.JDBC");
+            conn = DriverManager.getConnection("jdbc:sqlite:albums.sqlite3.db");
+        } catch (Exception e ) {
+            throw new SQLException( e.getMessage() );
+        }
     }
 
     private void finishConn() {
-
+        try {
+            conn.close();
+        } catch ( Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String args[]) {
