@@ -2,11 +2,13 @@ import java.sql.*;
 import javax.sql.*;
 import java.util.*;
 
+
 public class Main {
 
     private Map<Action,SQLFunction> translate;
     private Scanner in;
     private Connection conn;
+    //public static final String DB = "jdbc:sqlite3:albums.sqlite3.db";
 
     public Main() {
         this.createTranslateLinks();
@@ -36,7 +38,7 @@ public class Main {
             this.initConn();
             Action userChoice = prompt();
             if ( translate.containsKey( userChoice )) {
-                //this.translate.get( userChoice ).doSQL();
+                this.translate.get( userChoice ).doSQL(conn);
             } else {
                 System.out.println("Action Not Available");
             }
