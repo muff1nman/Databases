@@ -4,7 +4,7 @@ import java.util.*;
 
 class Display implements SQLFunction {
     public void doSQL( Connection db ){
-        
+        System.out.println("Displaying!");
     }
 }
 

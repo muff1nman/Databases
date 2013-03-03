@@ -4,12 +4,17 @@ import java.util.*;
 
 public class Main {
 
+    private Map<Action,SQLFunction> translate;
+
+    public Main() {
+        this.createTranslateLinks();
+    }
+
     public enum Action {
         DISPLAY, INSERT, UPDATE, DELETE, UNKNOWN
     }
 
 
-    Map<Action,SQLFunction> translate;
 
     private void createTranslateLinks() {
         translate = new HashMap<Action, SQLFunction>();
@@ -24,8 +29,12 @@ public class Main {
 
     private void run() {
         Action userChoice = prompt();
-
-
+        if ( translate.containsKey( userChoice )) {
+            // Run the query
+        } else {
+            System.out.println("Action Not Available");
+            System.out.println("Exit");
+        }
     }
 
     public static void main(String args[]) {
