@@ -11,10 +11,20 @@ public class Main {
     }
 
     public enum Action {
-        DISPLAY, INSERT, UPDATE, DELETE, UNKNOWN
+        DISPLAY(1, "Display"), INSERT(2,"Insert"), UPDATE(3,"Update"), DELETE(4,"Delete");
+
+        String text;
+        int id;
+
+        private Action(int id, String text) {
+            this.text = text;
+            this.id = id;
+        }
+
+        public String toString() {
+            return text;
+        }
     }
-
-
 
     private void createTranslateLinks() {
         translate = new HashMap<Action, SQLFunction>();
@@ -24,7 +34,12 @@ public class Main {
 
 
     public Action prompt() {
-        return Action.UNKNOWN;
+        System.out.println("Welcome to the Albums Database! ");
+        for( Action a : Action.values() ){
+            System.out.println( a.toString() );
+        }
+        System.out.print("Enter a command: ");
+        return Action.DELETE;
     }
 
     private void run() {
