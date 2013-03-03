@@ -3,5 +3,5 @@ import javax.sql.*;
 import java.util.*;
 
 interface SQLFunction {
-    public void doSQL(Connection db );
+    public void doSQL(Connection db ) throws SQLException;
 }

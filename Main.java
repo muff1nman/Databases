@@ -32,12 +32,34 @@ public class Main {
     }
 
     private void run() {
-        Action userChoice = prompt();
-        if ( translate.containsKey( userChoice )) {
-            //this.translate.get( userChoice ).doSQL();
-        } else {
-            System.out.println("Action Not Available");
+        try {
+            this.initConn();
+            Action userChoice = prompt();
+            if ( translate.containsKey( userChoice )) {
+                //this.translate.get( userChoice ).doSQL();
+            } else {
+                System.out.println("Action Not Available");
+            }
+
             System.out.println("Exit");
+            this.finishConn();
+        } catch (SQLException e ) {
+            doBadSQL(e);
+        }
+    }
+
+    private void doBadSQL(Exception e){
+        try {
+            e.printStackTrace();
+            this.conn.rollback();
+        } catch (Exception a) {
+            System.out.println("Could not rollback");
+        } finally {
+            try {
+                conn.close();
+            } catch (Exception f) {
+                System.out.println("You're in deep shit!");
+            }
         }
     }
 
@@ -45,6 +67,7 @@ public class Main {
         try { 
             Class.forName("org.sqlite.JDBC");
             conn = DriverManager.getConnection("jdbc:sqlite:albums.sqlite3.db");
+            conn.setAutoCommit(false);
         } catch (Exception e ) {
             throw new SQLException( e.getMessage() );
         }
