@@ -13,11 +13,21 @@ class Display implements SQLFunction {
 
         System.out.println("Number of columns: " + numColumns );
 
+        // Print column headers
         for( int i = 1; i <= numColumns; ++i ) {
             System.out.print( md.getColumnLabel(i) + "|");
         }
         System.out.println();
 
+        // print rows
+        while ( rs.next() ) {
+            for( int i = 1; i <= numColumns; ++i ) {
+                System.out.print(rs.getString(i) + "|");
+            }
+            System.out.println();
+        }
+
+        rs.close();
         System.out.println("Display End");
     }
 }
