@@ -3,6 +3,16 @@ import javax.sql.*;
 
 public class Main {
 
+    public enum Action {
+        DISPLAY, INSERT, UPDATE, DELETE, UNKNOWN
+    }
+
+
+    public Action prompt() {
+        return Action.UNKNOWN;
+    }
+
+
     public static void main(String args[]) {
         Main app = new Main();
         app.run();
