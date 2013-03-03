@@ -5,16 +5,19 @@ import java.util.*;
 public class Main {
 
     private Map<Action,SQLFunction> translate;
+    private Scanner in;
 
     public Main() {
         this.createTranslateLinks();
+        this.in = new Scanner( System.in );
     }
 
     public enum Action {
         DISPLAY(1, "Display"), INSERT(2,"Insert"), UPDATE(3,"Update"), DELETE(4,"Delete");
 
-        String text;
-        int id;
+        private String text;
+        private int id;
+        private static Map<Integer,Action> translate = null;
 
         private Action(int id, String text) {
             this.text = text;
@@ -23,6 +26,26 @@ public class Main {
 
         public String toString() {
             return text;
+        }
+
+        public int toId() {
+            return id;
+        }
+
+        public static Action getAction( int id ) {
+            if ( translate == null ) {
+                initTranslate();
+            }
+
+            return translate.get(id);
+
+        }
+
+        private static void initTranslate() {
+            translate = new HashMap<Integer, Action>();
+            for( Action each: Action.values() ) {
+                translate.put( each.toId(), each );
+            }
         }
     }
 
@@ -36,16 +59,18 @@ public class Main {
     public Action prompt() {
         System.out.println("Welcome to the Albums Database! ");
         for( Action a : Action.values() ){
-            System.out.println( a.toString() );
+            System.out.println( a.toId() + ". " + a.toString() );
         }
+        System.out.println();
         System.out.print("Enter a command: ");
-        return Action.DELETE;
+        return Action.getAction(
+                this.in.nextInt());
     }
 
     private void run() {
         Action userChoice = prompt();
         if ( translate.containsKey( userChoice )) {
-            // Run the query
+            this.translate.get( userChoice ).doSQL();
         } else {
             System.out.println("Action Not Available");
             System.out.println("Exit");
