@@ -19,6 +19,7 @@ public class Main {
         translate = new HashMap<Action, SQLFunction>();
 
         translate.put( Action.DISPLAY, new Display());
+        translate.put( Action.INSERT, new Insert());
     }
 
 
