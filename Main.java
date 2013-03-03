@@ -20,6 +20,7 @@ public class Main {
 
         translate.put( Action.DISPLAY, new Display());
         translate.put( Action.INSERT, new Insert());
+        translate.put( Action.DELETE, new Delete());
     }
 
 
