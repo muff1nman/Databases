@@ -6,7 +6,6 @@ class Display extends SQLFunction {
     public static String query = "SELECT * FROM albums";
     public void doSQL( Connection db, Integer id ) throws SQLException {
         String whereQuery = query + " WHERE id = ?";
-        System.out.println("Display Start");
         PreparedStatement pstmt = db.prepareStatement( whereQuery );
         pstmt.setInt( 1, id );
         ResultSet rs = pstmt.executeQuery();
@@ -30,10 +29,8 @@ class Display extends SQLFunction {
         }
 
         rs.close();
-        System.out.println("Display End");
     }
     public void doSQL( Connection db ) throws SQLException {
-        System.out.println("Display Start");
         PreparedStatement pstmt = db.prepareStatement( query );
         ResultSet rs = pstmt.executeQuery();
         ResultSetMetaData md = rs.getMetaData();
@@ -56,7 +53,6 @@ class Display extends SQLFunction {
         }
 
         rs.close();
-        System.out.println("Display End");
     }
 }
 

@@ -6,7 +6,6 @@ class Update extends SQLFunction {
     public static String query = "UPDATE albums set  title = ?, year = ?, rank = ? WHERE id = ?;";
 
     public void doSQL( Connection db ) throws SQLException {
-        System.out.println("Update Start");
         PreparedStatement pstmt = db.prepareStatement( query );
         System.out.println();
         System.out.println("Update Album");
@@ -19,7 +18,6 @@ class Update extends SQLFunction {
         pstmt.setInt(4,id);
         pstmt.executeUpdate();
         pstmt.clearParameters();
-        System.out.println("Update End");
 
         db.commit();
 
