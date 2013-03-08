@@ -15,6 +15,8 @@ class Insert extends SQLFunction {
         pstmt.clearParameters();
 
         db.commit();
+
+        System.out.println("Insert successful");
     }
 
 

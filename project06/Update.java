@@ -21,6 +21,8 @@ class Update extends SQLFunction {
 
         db.commit();
 
+        System.out.println("Update Successful");
+
     }
 
 
