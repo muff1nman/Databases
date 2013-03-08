@@ -30,17 +30,21 @@ class Insert implements SQLFunction {
     }
 
     public void doSQL( Connection db ) throws SQLException {
-        System.out.println("Insert Start");
-        PreparedStatement pstmt = db.prepareStatement( query );
-        Map<String,String> values = promptValues();
-        pstmt.setString(1,values.get("title"));
-        pstmt.setInt(2,Integer.parseInt(values.get("year")));
-        pstmt.setInt(3,Integer.parseInt(values.get("rank")));
-        pstmt.executeUpdate();
-        //pstmt.clearParameters();
-        System.out.println("Insert End");
+        try {
+            System.out.println("Insert Start");
+            PreparedStatement pstmt = db.prepareStatement( query );
+            Map<String,String> values = promptValues();
+            pstmt.setString(1,values.get("title"));
+            pstmt.setInt(2,Integer.parseInt(values.get("year")));
+            pstmt.setInt(3,Integer.parseInt(values.get("rank")));
+            pstmt.executeUpdate();
+            //pstmt.clearParameters();
+            System.out.println("Insert End");
 
-        db.commit();
+            db.commit();
+        } catch (NumberFormatException e) {
+            throw new SQLException;
+        }
     }
 
 

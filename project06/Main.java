@@ -55,8 +55,9 @@ public class Main {
 
     private void doBadSQL(Exception e){
         try {
-            e.printStackTrace();
+            System.out.print("Could not execute SQL, rollback...");
             this.conn.rollback();
+            System.out.println("Done");
         } catch (Exception a) {
             System.out.println("Could not rollback");
         } finally {
