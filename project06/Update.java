@@ -34,22 +34,27 @@ class Update implements SQLFunction {
     }
 
     public void doSQL( Connection db ) throws SQLException {
-        System.out.println("Update Start");
-        PreparedStatement pstmt = db.prepareStatement( query );
-        System.out.println();
-        System.out.println("Update Album");
-        int id = getId();
-        // todo print out old album
-        Map<String,String> values = promptValues();
-        pstmt.setString(1,values.get("title"));
-        pstmt.setInt(2,Integer.parseInt(values.get("year")));
-        pstmt.setInt(3,Integer.parseInt(values.get("rank")));
-        pstmt.setInt(4,id);
-        pstmt.executeUpdate();
-        //pstmt.clearParameters();
-        System.out.println("Update End");
+        try {
+            System.out.println("Update Start");
+            PreparedStatement pstmt = db.prepareStatement( query );
+            System.out.println();
+            System.out.println("Update Album");
+            int id = getId();
+            // todo print out old album
+            Map<String,String> values = promptValues();
+            pstmt.setString(1,values.get("title"));
+            pstmt.setInt(2,Integer.parseInt(values.get("year")));
+            pstmt.setInt(3,Integer.parseInt(values.get("rank")));
+            pstmt.setInt(4,id);
+            pstmt.executeUpdate();
+            //pstmt.clearParameters();
+            System.out.println("Update End");
 
-        db.commit();
+            db.commit();
+
+        } catch( NumberFormatException e) {
+            throw new SQLException();
+        }
     }
 
 

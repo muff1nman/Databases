@@ -43,7 +43,7 @@ class Insert implements SQLFunction {
 
             db.commit();
         } catch (NumberFormatException e) {
-            throw new SQLException;
+            throw new SQLException();
         }
     }
 

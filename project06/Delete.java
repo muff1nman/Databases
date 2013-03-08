@@ -28,16 +28,21 @@ class Delete implements SQLFunction {
     }
 
     public void doSQL( Connection db ) throws SQLException {
-        System.out.println("Delete Start");
-        PreparedStatement pstmt = db.prepareStatement( query );
-        Map<String,String> values = promptValues();
-        pstmt.setInt(1,Integer.parseInt(values.get("id")));
-        pstmt.executeUpdate();
-        //pstmt.clearParameters();
-        System.out.println("Delte End");
 
-        db.commit();
-        System.out.println("Album delted successfully");
+        try {
+            System.out.println("Delete Start");
+            PreparedStatement pstmt = db.prepareStatement( query );
+            Map<String,String> values = promptValues();
+            pstmt.setInt(1,Integer.parseInt(values.get("id")));
+            pstmt.executeUpdate();
+            //pstmt.clearParameters();
+            System.out.println("Delte End");
+
+            db.commit();
+            System.out.println("Album delted successfully");
+        } catch (NumberFormatException e) {
+            throw new SQLException();
+        }
     }
 
 
