@@ -2,49 +2,21 @@ import java.sql.*;
 import javax.sql.*;
 import java.util.*;
 
-class Insert implements SQLFunction {
+class Insert extends SQLFunction {
     public static String query = "INSERT INTO albums(title,year,rank) values(?,?,?);";
-
-    private Map<String,String> emptyValues() {
-        Map<String,String> values = new HashMap<String,String>();
-        values.put("title","");
-        values.put("year","");
-        values.put("rank","");
-        return values;
-    }
-
-    private Map<String, String> promptValues() {
-        Map<String,String> values = emptyValues();
-        Scanner in = new Scanner(System.in);
+    public void doSQL( Connection db ) throws SQLException {
+        PreparedStatement pstmt = db.prepareStatement( query );
         System.out.println();
         System.out.println("New Album");
-        for( String key : values.keySet() ){
-            System.out.print(key + ": ");
-            values.put(key, in.nextLine());
-        }
+        pstmt.setString(1, promptString("Title: "));
+        pstmt.setInt(2, promptInt("Year: "));
+        pstmt.setInt(3, promptInt("Rank: "));
+        pstmt.executeUpdate();
+        pstmt.clearParameters();
 
-        System.out.println();
+        db.commit();
 
-        return values;
-
-    }
-
-    public void doSQL( Connection db ) throws SQLException {
-        try {
-            System.out.println("Insert Start");
-            PreparedStatement pstmt = db.prepareStatement( query );
-            Map<String,String> values = promptValues();
-            pstmt.setString(1,values.get("title"));
-            pstmt.setInt(2,Integer.parseInt(values.get("year")));
-            pstmt.setInt(3,Integer.parseInt(values.get("rank")));
-            pstmt.executeUpdate();
-            //pstmt.clearParameters();
-            System.out.println("Insert End");
-
-            db.commit();
-        } catch (NumberFormatException e) {
-            throw new SQLException;
-        }
+        System.out.println("Insert successful");
     }
 
 
