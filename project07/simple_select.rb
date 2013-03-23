@@ -20,7 +20,7 @@ begin
 rescue Mysql::Error
   puts "Mysql threw an error"
 ensure
-  db.close
+  db.close unless db.nil?
 end
 
 
