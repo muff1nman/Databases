@@ -20,6 +20,7 @@ ActiveRecord::Base.establish_connection(
 # Class definitions
 #
 class User < ActiveRecord::Base
+  has_many_and_belongs_to :snacks
 
   def to_s
     name
@@ -27,8 +28,17 @@ class User < ActiveRecord::Base
 
 end
 
-# TODO: Your class definitions should be placed here.
+class  Snack < ActiveRecord::Base
+  has_many_and_belongs_to :users
+end
 
+class Machine < ActiveRecord::Base
+
+end
+
+class Building < ActiveRecord::Base
+
+end
 
 #
 # Core functions.
@@ -40,7 +50,6 @@ def list_users
   end
 end
 
-# TODO: Your other menu-driven functions should be placed here.
 
 def main_menu
   puts "\nMain Menu."
@@ -63,16 +72,16 @@ def execute_command(command)
     # TODO list_machines
   when "C"
     puts "\nListing Snacks"
-    # TDOO list_snacks
+    # TODO list_snacks
   when "D"
     puts "\nListing Users"
     list_users
   when "E"
     puts "\nFind a Snack"
-    # TDOO find_snack
+    # TODO find_snack
   when "F"
     puts "\nAdding a new Snack"
-    # TDOO add_snack
+    # TODO add_snack
   when "Q"
     puts "Quitting... buh-bye."
   else
