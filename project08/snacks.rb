@@ -81,7 +81,9 @@ end
 
 def list_buildings
   buildings = Building.all
-  buildings.each { |building| puts building }
+  buildings.each do |building| 
+    puts "#{building} (#{building.machines.count} machines)"
+  end
 end
 
 
