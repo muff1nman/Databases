@@ -21,8 +21,8 @@ ActiveRecord::Base.logger = Logger.new(STDOUT)
 # "Hey AR, connect to the database with the following options."
 ActiveRecord::Base.establish_connection(
   :host => 'csci403.c99q7trvwetr.us-west-2.rds.amazonaws.com',
-  :username => 'USERNAME',
-  :password => 'PASSWORD',
+  :username => $stdin.gets.chomp,
+  :password => $stdin.gets.chomp,
   :adapter => 'mysql2',
   :database => 'snacks'
 )
