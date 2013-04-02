@@ -20,7 +20,7 @@ ActiveRecord::Base.establish_connection(
 # Class definitions
 #
 class User < ActiveRecord::Base
-  has_many_and_belongs_to :snacks
+  has_and_belongs_to_many :snacks
 
   def to_s
     name
@@ -29,14 +29,27 @@ class User < ActiveRecord::Base
 end
 
 class  Snack < ActiveRecord::Base
-  has_many_and_belongs_to :users
+  has_and_belongs_to_many :users
+
+  def to_s
+    name
+  end
 end
 
 class Machine < ActiveRecord::Base
+  has_many :snacks
+
+  def to_s
+    description
+  end
 
 end
 
 class Building < ActiveRecord::Base
+
+  def to_s
+    name
+  end
 
 end
 
@@ -48,6 +61,23 @@ def list_users
   users.each do |user|
     puts user
   end
+end
+
+def list_snacks
+  snacks = Snack.all
+  snacks.each do |snack| 
+    puts snack
+  end
+end
+
+def list_machines
+  machines = Machine.all
+  machines.each { |machine| puts machine }
+end
+
+def list_buildings
+  buildings = Building.all
+  buildings.each { |building| puts building }
 end
 
 
@@ -66,13 +96,13 @@ def execute_command(command)
   case command
   when "A"
     puts "\nListing Buildings"
-    # TODO list_buildings
+    list_buildings
   when "B"
     puts "\nListing Machines"
-    # TODO list_machines
+    list_machines
   when "C"
     puts "\nListing Snacks"
-    # TODO list_snacks
+    list_snacks
   when "D"
     puts "\nListing Users"
     list_users
