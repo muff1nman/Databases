@@ -38,14 +38,16 @@ end
 
 class Machine < ActiveRecord::Base
   has_many :snacks
+  belongs_to :building
 
   def to_s
-    description
+    "#{serial_number}, #{description}"
   end
 
 end
 
 class Building < ActiveRecord::Base
+  has_many :machines
 
   def to_s
     name
@@ -72,7 +74,9 @@ end
 
 def list_machines
   machines = Machine.all
-  machines.each { |machine| puts machine }
+  machines.each do |machine|
+    puts "#{machine} (#{machine.building})"
+  end
 end
 
 def list_buildings
