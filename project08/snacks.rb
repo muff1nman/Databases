@@ -32,6 +32,7 @@ class  Snack < ActiveRecord::Base
   has_and_belongs_to_many :users
   has_and_belongs_to_many :machines
   validates :calories, numericality: { greater_than_or_equal_to: 0 }
+  validates :name, presence: true
 
   def to_s
     name
@@ -41,6 +42,7 @@ end
 class Machine < ActiveRecord::Base
   has_and_belongs_to_many :snacks
   belongs_to :building
+  validates :serial_number, presence: true, uniqueness: true
 
   def to_s
     "#{serial_number}, #{description}"
