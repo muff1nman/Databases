@@ -38,7 +38,7 @@ class  Snack < ActiveRecord::Base
 end
 
 class Machine < ActiveRecord::Base
-  has_many :snacks
+  has_and_belongs_to_many :snacks
   belongs_to :building
 
   def to_s
@@ -100,6 +100,48 @@ def find_snack( name )
   end
 end
 
+def prompt( string )
+  print string
+  $stdin.gets.chomp
+end
+
+def add_snack
+  snack = Snack.new
+  snack.name = prompt "Name: "
+  snack.description = prompt "Description: "
+  snack.calories = prompt "Calories "
+  unless snack.valid?
+    puts "Could not save snack because: "
+    snack.errors.full_messages.each do |error|
+      puts "  #{error}"
+    end
+  else
+    snack.save
+    add_snack_to_machines( snack )
+  end
+end
+
+def list_buildings_with_snacks
+  Building.all.each do |building|
+    puts building
+    building.machines.each do |machine|
+      puts machine
+    end
+  end
+end
+
+def add_snack_to_machines( snack )
+  list_buildings_with_snacks
+  machine = Machine.find_by_id( prompt "Enter a machine id" )
+  unless machine
+    puts "Cannot find a machine with that id"
+    add_snack_to_machines( snack )
+  else
+    machine.snacks << snack
+    puts "Snack added to machine"
+  end
+end
+
 
 def main_menu
   puts "\nMain Menu."
@@ -131,7 +173,7 @@ def execute_command(command)
     find_snack( $stdin.gets.chomp )
   when "F"
     puts "\nAdding a new Snack"
-    # TODO add_snack
+    add_snack
   when "Q"
     puts "Quitting... buh-bye."
   else
