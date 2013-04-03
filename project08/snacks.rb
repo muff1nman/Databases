@@ -7,7 +7,7 @@ require 'logger'
 #
 # Configuration
 #
-ActiveRecord::Base.logger = Logger.new(STDOUT) # Comment this line to turn off log output
+ActiveRecord::Base.logger = Logger.new(STDERR) # Comment this line to turn off log output
 ActiveRecord::Base.establish_connection(
   :host => 'csci403.c99q7trvwetr.us-west-2.rds.amazonaws.com',
   :username => $stdin.gets.chomp,
@@ -30,6 +30,7 @@ end
 
 class  Snack < ActiveRecord::Base
   has_and_belongs_to_many :users
+  has_and_belongs_to_many :machines
 
   def to_s
     name
@@ -58,31 +59,44 @@ end
 #
 # Core functions.
 #
-def list_users
-  users = User.all
+def list_users( criteria=:all )
+  users = User.find( criteria )
   users.each do |user|
     puts user
   end
 end
 
-def list_snacks
-  snacks = Snack.all
+def list_snacks( criteria=:all )
+  snacks = Snack.find( criteria )
   snacks.each do |snack| 
-    puts snack
+    puts "Snack: #{snack}"
+    snack.machines.each do |dispenser|
+      puts "   Machine: #{dispenser}"
+    end
   end
 end
 
-def list_machines
-  machines = Machine.all
+def list_machines( criteria=:all )
+  machines = Machine.find( criteria )
   machines.each do |machine|
-    puts "#{machine} (#{machine.building})"
+    puts "Machine: #{machine} (Building: #{machine.building})"
   end
 end
 
-def list_buildings
-  buildings = Building.all
+def list_buildings( criteria=:all )
+  buildings = Building.find( criteria )
   buildings.each do |building| 
-    puts "#{building} (#{building.machines.count} machines)"
+    puts "Building: #{building} (#{building.machines.count} machines)"
+  end
+end
+
+def find_snack( name )
+  unless snack = Snack.find_by_name( name )
+    puts "Not Found"
+    return
+  end
+  snack.machines.each do |machine|
+    puts "Machine: #{machine} (Building: #{machine.building})"
   end
 end
 
@@ -114,7 +128,7 @@ def execute_command(command)
     list_users
   when "E"
     puts "\nFind a Snack"
-    # TODO find_snack
+    find_snack( $stdin.gets.chomp )
   when "F"
     puts "\nAdding a new Snack"
     # TODO add_snack
