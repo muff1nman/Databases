@@ -3,6 +3,17 @@
 require 'rubygems'
 require 'active_record'
 require 'logger'
+require 'io/console'
+
+def prompt( string, hide=false)
+  print string
+  if hide
+    $stdin.noecho(&:gets).chomp
+  else
+    $stdin.gets.chomp
+  end
+end
+
 
 #
 # Configuration
@@ -10,8 +21,8 @@ require 'logger'
 ActiveRecord::Base.logger = Logger.new(STDERR) # Comment this line to turn off log output
 ActiveRecord::Base.establish_connection(
   :host => 'csci403.c99q7trvwetr.us-west-2.rds.amazonaws.com',
-  :username => $stdin.gets.chomp,
-  :password => $stdin.gets.chomp,
+  :username => prompt('Username: '),
+  :password => prompt('Password: ',true),
   :adapter => 'mysql2',
   :database => 'snacks'
 )
@@ -101,11 +112,6 @@ def find_snack( name )
   snack.machines.each do |machine|
     puts "Machine: #{machine} (Building: #{machine.building})"
   end
-end
-
-def prompt( string )
-  print string
-  $stdin.gets.chomp
 end
 
 def add_snack
