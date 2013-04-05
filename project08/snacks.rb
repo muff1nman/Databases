@@ -18,7 +18,7 @@ end
 #
 # Configuration
 #
-ActiveRecord::Base.logger = Logger.new(STDERR) # Comment this line to turn off log output
+#ActiveRecord::Base.logger = Logger.new(STDERR) # Comment this line to turn off log output
 ActiveRecord::Base.establish_connection(
   :host => 'csci403.c99q7trvwetr.us-west-2.rds.amazonaws.com',
   :username => prompt('Username: '),
@@ -134,14 +134,14 @@ def list_buildings_with_snacks
   Building.all.each do |building|
     puts building
     building.machines.each do |machine|
-      puts machine
+      puts "Enter: #{machine.id} for Machine: #{machine}"
     end
   end
 end
 
 def add_snack_to_machines( snack )
   list_buildings_with_snacks
-  machine = Machine.find_by_id( prompt "Enter a machine id" )
+  machine = Machine.find_by_id( prompt "Enter a machine id: " )
   unless machine
     puts "Cannot find a machine with that id"
     add_snack_to_machines( snack )
