@@ -39,8 +39,39 @@ end
 display_section "Testing a simple storage of a hash" do
   redis.del "somehash"
   redis.hset "somehash", "name", "billy"
+  puts "Exists? #{redis.hexists "somehash", "name"}"
   redis.hset "somehash", "age", "21"
   puts redis.hget "somehash", "name"
+  puts redis.hget "somehash", "age"
+  puts "Incrementing age"
+  puts redis.hincrby "somehash", "age", 1
+  puts "Number of fields: #{redis.hlen "somehash"}"
 end
 
+display_section "Testing sorted sets" do
+  redis.del "someset"
+  puts "Adding to A #{redis.zadd "someset", 2, "lion"}"
+  puts "Adding to A #{redis.zadd "someset", 1, "bear"}"
+  puts "Adding to A #{redis.zadd "someset", 10, "bear"}"
+  puts "Displaying A"
+  puts redis.zrange "someset", 0, -1
+  puts "Count below 10"
+  puts redis.zcount "someset", 0, 10
+  puts "Removing"
+  puts redis.zrem "someset", "lion"
+  puts "Displaying A"
+  puts redis.zrange "someset", 0, -1
+end
+
+display_section "Testing string operations" do
+  redis.set "string", "hello"
+  puts redis.get "string"
+  puts "Appending"
+  puts redis.append "string", " world"
+  puts redis.get "string"
+  puts "Get range"
+  puts redis.getrange "string", 1, 4
+  puts "Get length"
+  puts redis.strlen "string"
+end
 
