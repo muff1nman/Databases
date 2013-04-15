@@ -1,0 +1,6 @@
+Values are not limited to strings but an be lists, sets, or hashes [of strings].
+
+Replication is done on a client-server basis.
+
+Memcached is a 'dumb' keyvalue store whereas Redis has a small set of
+server-side operations on native data structures.
