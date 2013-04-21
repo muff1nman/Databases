@@ -4,7 +4,11 @@
 #
 # All Rights Reserved.
 
-require 'bson'
 require 'mongo'
+include Mongo
 
+db = MongoClient.new("staff.mongohq.com", 10033).db("zoolicious")
 
+db.authenticate( ENV['mongo_user'], ENV['mongo_pass'] )
+
+puts db.collection_names
